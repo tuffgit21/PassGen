@@ -65,7 +65,7 @@ def PassGen_output():
     timestamp = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
 
     with open(file_path, "a", encoding="utf-8") as file:
-        file.write(f"\n{password} - {n} digits - {timestamp} - {PassGenVers}")
+        file.write(f"\n{password} - {n} digits - {timestamp} - {PassGenVers}\n")
 
     output_box.delete("1.0", tk.END)
     output_box.insert(tk.END, f"{password} - {n} digits\n")
