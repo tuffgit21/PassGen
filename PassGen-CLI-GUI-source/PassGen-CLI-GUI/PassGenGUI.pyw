@@ -15,6 +15,9 @@ root.config(bg="darkgray")
 root.title("PasswordGenerator")
 root.geometry("300x330")
 root.resizable(False, False)
+generated_password = None
+generated_length = None
+generated_timestamp = None
 label = tk.Label(root, text=f"PassGen {PassGenVers}\nMade by @tuffgit21 on github", pady=20,bg="darkgray")
 label.pack()
 
@@ -39,6 +42,8 @@ def check_input():
 
 
 def PassGen_output():
+    global generated_password, generated_length, generated_timestamp
+
     n = check_input()
     if n is False:
         return
@@ -63,6 +68,9 @@ def PassGen_output():
 
     password = "".join(password_chars)
     timestamp = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
+    generated_password = password
+    generated_length = n
+    generated_timestamp = timestamp
 
     with open(file_path, "a", encoding="utf-8") as file:
         file.write(f"\n{password} - {n} digits - {timestamp} - {PassGenVers}\n")
@@ -75,6 +83,7 @@ def PassGen_output():
     label2.pack_forget()
     save_button.pack(pady=10)
     label2.pack()
+    return n
 
 
 def clear_output():
@@ -93,7 +102,10 @@ def save_passwords():
     )
     if file_path:
         with open(file_path, "a", encoding="utf-8") as file:
-            file.write(f"\n{output_box.get('1.0','end-1c')}")
+            file.write(
+                f"{generated_password} - {generated_length} digits - "
+                f"{generated_timestamp} - {PassGenVers}"
+            )
         messagebox.showinfo("PassGenGUI", f"Password saved to: {file_path}")
 
 entry_label = tk.Label(root, text="Enter a digit between 15 and 30.",bg="darkgray")
